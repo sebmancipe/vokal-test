@@ -34,5 +34,10 @@ In order to make the showcase filter's state available in depper and higher comp
 
 Finally, the images resources are get using a OOP service class: ImagesService. The usage of this class, in the moment, is to return a filtered array of images based on the current filters state. The service strategy (or provider strategy) enables to separate the concerns in the application: the images rendered (presentation layer) does nothing to do with the how we get them (bussiness and third party logic). All of this is supported by the usage of interfaces to translate third party DTOs and internal bussiness models. The usage of OOP allows to have a more tested oriented code (easily executable with other tools like vitest -similar to jest-).
 
+## Missing features
+Due the deadline given, there are some features that are missing:
+- Fully responsiveness
+- Third party integration to get cropped images on demand
+
 ## Deployed on
-You can check the page deployed on TBD.
+You can check the page deployed in Render: https://vokal-test.onrender.com/.

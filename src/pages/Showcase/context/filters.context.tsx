@@ -12,6 +12,7 @@ export interface FiltersContext {
     toggleColor: (c: Color) => void;
     setStyle: (s: Style) => void;
     toggleRoom: (r: Room) => void;
+    resetFilters: () => void;
 }
 
 const defaultState : FilterState = {
@@ -25,6 +26,7 @@ export const FiltersContext = createContext<FiltersContext>({
     toggleRoom: () => {},
     setStyle: () => {},
     toggleColor: () => {},
+    resetFilters: () => {},
 });
 
 export const FiltersProvider = ({ children }: { children: React.ReactNode }) => {
@@ -39,16 +41,24 @@ export const FiltersProvider = ({ children }: { children: React.ReactNode }) => 
             currentFilters.colors.add(color);
         }
 
+        if(!currentFilters.colors.size){
+            currentFilters.colors.add(Color.WHITE);
+        }
+
         setFilters(currentFilters);
     }
 
     const toggleRoom = (room: Room) => {
         const currentFilters =  { ...filters };
 
-        if (filters.rooms.has(room)) {
-            filters.rooms.delete(room);
+        if (currentFilters.rooms.has(room)) {
+            currentFilters.rooms.delete(room);
         } else { 
-            filters.rooms.add(room);
+            currentFilters.rooms.add(room);
+        }
+
+        if(!currentFilters.rooms.size){
+            currentFilters.rooms.add(Room.KITCHEN);
         }
         
         setFilters(currentFilters);
@@ -61,13 +71,22 @@ export const FiltersProvider = ({ children }: { children: React.ReactNode }) => 
         setFilters(currentFilters);
     }
 
+    const resetFilters = () => {
+        setFilters({
+            colors: new Set([Color.WHITE]),
+            rooms: new Set([Room.KITCHEN]),
+            style: Style.MODERN,
+        });
+    }
+
 
     return (
         <FiltersContext.Provider value={{
             filters,
             toggleRoom,
             toggleColor,
-            setStyle
+            setStyle,
+            resetFilters
         }}>
             {children}
         </FiltersContext.Provider>
